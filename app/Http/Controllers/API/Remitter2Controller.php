@@ -115,7 +115,8 @@ class Remitter2Controller extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to query remitter: ' . $e->getMessage(),
-                'ip' => $request->ip()
+                'ip' => $request->ip(),
+                'request' => $request->all()
             ], 500);
         }
     }
