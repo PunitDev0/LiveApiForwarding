@@ -40,10 +40,9 @@ class Remitter2Controller extends Controller
                 'input' => $request->input(),
                 'mobile' => $request->input('mobile'),
                 'headers' => $request->headers->all(),
-                'content_type' => $request->header('Content-Type'),
-                'client_ip' => $request->ip()  // Log request IP
+                'content_type' => $request->header('Content-Type')
             ]);
-    
+
             // Check if the request is JSON
             if (!$request->isJson()) {
                 return response()->json([
@@ -51,42 +50,38 @@ class Remitter2Controller extends Controller
                     'message' => 'Invalid Content-Type. Expected application/json'
                 ], 400);
             }
-    
+
             // Validate the mobile number
             $validated = $request->validate([
                 'mobile' => 'required|digits:10'
             ]);
-    
+
             // Generate request ID and JWT token
             $requestId = time() . rand(1000, 9999);
             $jwtToken = $this->generateJwtToken($requestId);
-    
+
             // Log JWT token
             Log::info('Generated JWT Token', ['token' => $jwtToken]);
-    
-            // Make HTTP request to the external API with custom IP binding
+
+            // Make HTTP request to the external API
             $response = Http::withHeaders([
                 'Token' => $jwtToken,
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'Authorisedkey' => base64_decode($this->secretKey)
-            ])->withOptions([
-                'curl' => [
-                    CURLOPT_INTERFACE => '106.219.160.181'  // Use your whitelisted IP here
-                ]
             ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/remitter/queryremitter', [
                 'mobile' => $validated['mobile']
             ]);
-    
+
             // Log raw API response
             Log::info('External API Response', [
                 'status' => $response->status(),
                 'body' => $response->body()
             ]);
-    
+
             // Parse the response
             $responseData = $response->json() ?? ['message' => 'Invalid response from API'];
-    
+
             // Check if the response is successful
             if ($response->successful()) {
                 Log::info('Remitter query successful', [
@@ -94,13 +89,13 @@ class Remitter2Controller extends Controller
                     'jwt_token' => $jwtToken,
                     'response_status' => $responseData['status'] ?? 'unknown'
                 ]);
-    
+
                 return response()->json([
                     'success' => true,
                     'data' => $responseData
                 ], 200);
             }
-    
+
             // Throw an exception if the response is not successful
             throw new \Exception($responseData['message'] ?? 'Failed to query remitter');
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -122,7 +117,6 @@ class Remitter2Controller extends Controller
             ], 500);
         }
     }
-    
 
     public function verifyAadhaar(Request $request)
     {
