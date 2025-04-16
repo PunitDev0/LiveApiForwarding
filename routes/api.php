@@ -28,6 +28,12 @@ Route::get('/test', function () {
 
     return request()->ip();
 });
+
+// Remitter2 Routes
+Route::post('/remitters/query', [Remitter2Controller::class, 'queryRemitter'])->name('remitters.query');
+Route::post('/remitters/verify-aadhaar', [Remitter2Controller::class, 'verifyAadhaar'])->name('remitters.verify-aadhaar');
+Route::post('/remitters/register', [Remitter2Controller::class, 'registerRemitter'])->name('remitters.register');
+
 // Beneficiary2 Routes
 Route::post('/beneficiaries/create', [Beneficiary2Controller::class, 'registerBeneficiary'])->name('beneficiaries.create');
 Route::post('/beneficiaries/delete', [Beneficiary2Controller::class, 'deleteBeneficiary'])->name('beneficiaries.delete');
@@ -71,10 +77,7 @@ Route::post('/municipality/status', [MunicipalityController::class, 'fetchMunici
 Route::post('/refunds/otp', [Refund2Controller::class, 'refundOtp'])->name('refunds.otp');
 Route::post('/refunds/process', [Refund2Controller::class, 'processRefund'])->name('refunds.process');
 
-// Remitter2 Routes
-Route::post('/remitters/query', [Remitter2Controller::class, 'queryRemitter'])->name('remitters.query');
-Route::post('/remitters/verify-aadhaar', [Remitter2Controller::class, 'verifyAadhaar'])->name('remitters.verify-aadhaar');
-Route::post('/remitters/register', [Remitter2Controller::class, 'registerRemitter'])->name('remitters.register');
+
 
 // Transaction2 Routes
 Route::post('/transactions/penny-drop', [Transaction2Controller::class, 'pennyDrop'])->name('transactions.penny-drop');

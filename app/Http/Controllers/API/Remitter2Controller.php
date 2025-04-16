@@ -10,15 +10,11 @@ use Illuminate\Routing\Controller;
 
 class Remitter2Controller extends Controller
 {
-    private $partnerId;
-    private $secretKey;
+  
+    private $partnerId = 'PS005962'; 
+    private $secretKey = 'UFMwMDU5NjJjYzE5Y2JlYWY1OGRiZjE2ZGI3NThhN2FjNDFiNTI3YTE3NDA2NDkxMzM=';
 
-    public function __construct()
-    {
-        $this->partnerId = env('PAYSPRINT_PARTNER_ID', 'PS005962');
-        $this->secretKey = env('PAYSPRINT_SECRET_KEY', 'UFMwMDU5NjJjYzE5Y2JlYWY1OGRiZjE2ZGI3NThhN2FjNDFiNTI3YTE3NDA2NDkxMzM=');
-    }
-
+    // Method to generate JWT token
     private function generateJwtToken($requestId)
     {
         $timestamp = time();
@@ -28,7 +24,11 @@ class Remitter2Controller extends Controller
             'reqid' => $requestId
         ];
 
-        return JWT::encode($payload, base64_decode($this->secretKey), 'HS256');
+        return Jwt::encode(
+            $payload,
+            $this->secretKey,
+            'HS256' // Using HMAC SHA-256 algorithm
+        );
     }
 
     public function queryRemitter(Request $request)
@@ -161,7 +161,6 @@ class Remitter2Controller extends Controller
                 'Token' => $jwtToken,
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'Authorisedkey' => base64_decode($this->secretKey)
             ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/remitter/queryremitter/aadhar_verify', [
                 'mobile' => $validated['mobile'],
                 'aadhaar_no' => $validated['aadhaar_no']
@@ -258,7 +257,6 @@ class Remitter2Controller extends Controller
                 'Token' => $jwtToken,
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'Authorisedkey' => base64_decode($this->secretKey)
             ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/remitter/registerremitter', [
                 'mobile' => $validated['mobile'],
                 'otp' => $validated['otp'],

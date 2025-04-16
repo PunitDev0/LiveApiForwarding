@@ -12,9 +12,10 @@ use Firebase\JWT\JWT;
 
 class Beneficiary2Controller extends Controller
 {
-    private $partnerId = 'PS005962';
+    private $partnerId = 'PS005962'; 
     private $secretKey = 'UFMwMDU5NjJjYzE5Y2JlYWY1OGRiZjE2ZGI3NThhN2FjNDFiNTI3YTE3NDA2NDkxMzM=';
 
+    // Method to generate JWT token
     private function generateJwtToken($requestId)
     {
         $timestamp = time();
@@ -24,7 +25,11 @@ class Beneficiary2Controller extends Controller
             'reqid' => $requestId
         ];
 
-        return JWT::encode($payload, base64_decode($this->secretKey), 'HS256');
+        return Jwt::encode(
+            $payload,
+            $this->secretKey,
+            'HS256' // Using HMAC SHA-256 algorithm
+        );
     }
 
     public function registerBeneficiary(Request $request)
