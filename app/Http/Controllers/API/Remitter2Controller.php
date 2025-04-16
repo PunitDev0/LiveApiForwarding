@@ -69,7 +69,7 @@ class Remitter2Controller extends Controller
                 'Token' => $jwtToken,
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'Authorisedkey' => base64_decode($this->secretKey)
+                // 'Authorisedkey' => base64_decode($this->secretKey)
             ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/remitter/queryremitter', [
                 'mobile' => $validated['mobile']
             ]);
@@ -116,7 +116,8 @@ class Remitter2Controller extends Controller
                 'success' => false,
                 'message' => 'Failed to query remitter: ' . $e->getMessage(),
                 'ip' => $request->ip(),
-                'request' => $request->all()
+                'request' => $request->all(),
+                'responseData' => $response->json()
             ], 500);
         }
     }
