@@ -34,6 +34,7 @@ class Remitter2Controller extends Controller
     public function queryRemitter(Request $request)
     {
         try {
+
             // Log incoming request data for debugging
             Log::info('Incoming request data', [
                 'all' => $request->all(),
@@ -113,7 +114,8 @@ class Remitter2Controller extends Controller
             ]);
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to query remitter: ' . $e->getMessage()
+                'message' => 'Failed to query remitter: ' . $e->getMessage(),
+                'ip' => $request->ip()
             ], 500);
         }
     }
