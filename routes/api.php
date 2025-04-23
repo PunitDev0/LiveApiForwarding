@@ -39,6 +39,17 @@ Route::post('/beneficiaries/create', [Beneficiary2Controller::class, 'registerBe
 Route::post('/beneficiaries/delete', [Beneficiary2Controller::class, 'deleteBeneficiary'])->name('beneficiaries.delete');
 Route::post('/beneficiaries/fetch', [Beneficiary2Controller::class, 'fetchBeneficiary'])->name('beneficiaries.fetch');
 
+
+// Transaction2 Routes
+Route::post('/transactions/penny-drop', [Transaction2Controller::class, 'pennyDrop'])->name('transactions.penny-drop');
+Route::post('/transactions/send-otp', [Transaction2Controller::class, 'transactionSentOtp'])->name('transactions.send-otp');
+Route::post('/transactions/transact', [Transaction2Controller::class, 'transact'])->name('transactions.transact');
+Route::post('/transactions/status', [Transaction2Controller::class, 'transactionStatus'])->name('transactions.status');
+
+// Refund2 Routes
+Route::post('/refunds/otp', [Refund2Controller::class, 'refundOtp'])->name('refunds.otp');
+Route::post('/refunds/process', [Refund2Controller::class, 'processRefund'])->name('refunds.process');
+
 // BusTicketController Routes (Assumed)
 Route::post('/bus-tickets/operators', [BusTicketController::class, 'fetchBusOperators'])->name('bus-tickets.operators');
 Route::post('/bus-tickets/search', [BusTicketController::class, 'searchBus'])->name('bus-tickets.search');
@@ -73,17 +84,9 @@ Route::post('/municipality/bill-details', [MunicipalityController::class, 'fetch
 Route::post('/municipality/pay-bill', [MunicipalityController::class, 'payMunicipalityBill'])->name('municipality.pay-bill');
 Route::post('/municipality/status', [MunicipalityController::class, 'fetchMunicipalityStatus'])->name('municipality.status');
 
-// Refund2 Routes
-Route::post('/refunds/otp', [Refund2Controller::class, 'refundOtp'])->name('refunds.otp');
-Route::post('/refunds/process', [Refund2Controller::class, 'processRefund'])->name('refunds.process');
 
 
 
-// Transaction2 Routes
-Route::post('/transactions/penny-drop', [Transaction2Controller::class, 'pennyDrop'])->name('transactions.penny-drop');
-Route::post('/transactions/send-otp', [Transaction2Controller::class, 'transactionSentOtp'])->name('transactions.send-otp');
-Route::post('/transactions/transact', [Transaction2Controller::class, 'transact'])->name('transactions.transact');
-Route::post('/transactions/status', [Transaction2Controller::class, 'transactionStatus'])->name('transactions.status');
 
 // Utility Bill Payment Routes
 Route::post('/utility/operators', [UtilitybillPaymentController::class, 'fetchOperatorList'])->name('utility.operators');
