@@ -62,10 +62,10 @@ Route::post('/dmt-bank/transfer', [DMTBank1Controller::class, 'processBankTransf
 Route::post('/dmt-bank/status', [DMTBank1Controller::class, 'fetchTransferStatus'])->name('dmt-bank.status');
 
 // InsuranceController Routes (Assumed)
-Route::post('/insurance/operators', [InsuranceController::class, 'fetchInsuranceOperators'])->name('insurance.operators');
-Route::post('/insurance/premium-details', [InsuranceController::class, 'fetchPremiumDetails'])->name('insurance.premium-details');
-Route::post('/insurance/pay-premium', [InsuranceController::class, 'payPremium'])->name('insurance.pay-premium');
-Route::post('/insurance/status', [InsuranceController::class, 'fetchStatus'])->name('insurance.status');
+
+Route::post('/insurance/premium-details', [InsuranceController::class, 'fetchLICBill'])->name('insurance.premium-details');
+Route::post('/insurance/pay-premium', [InsuranceController::class, 'payInsuranceBill'])->name('insurance.pay-premium');
+Route::post('/insurance/status', [InsuranceController::class, 'fetchInsuranceStatus'])->name('insurance.status');
 
 // // LICController Routes (Assumed)
 // Route::post('/lic/operators', [LICController::class, 'fetchLICOperators'])->name('lic.operators');
