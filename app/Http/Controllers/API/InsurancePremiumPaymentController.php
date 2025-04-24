@@ -34,7 +34,6 @@ class InsurancePremiumPaymentController extends Controller
     public function fetchLICBill(Request $request)
     {
         try {
-            return $request->ip();
             $validated = $request->validate([
                 'canumber' => 'required|numeric',
                 'ad1' => 'required|email',
