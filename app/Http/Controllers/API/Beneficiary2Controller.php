@@ -142,6 +142,7 @@ class Beneficiary2Controller extends Controller
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 'Token' => $jwtToken,
+                'accept' => 'application/json',
             ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/beneficiary/registerbeneficiary/deletebeneficiary', [
                 'mobile' => $validated['mobile'],
                 'bene_id' => $validated['bene_id'],

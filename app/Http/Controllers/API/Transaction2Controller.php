@@ -46,7 +46,6 @@ class Transaction2Controller extends Controller
             $response = Http::withHeaders([
                 'accept' => 'application/json',
                 'content-type' => 'application/json',
-                'Authorisedkey' => base64_decode($this->secretKey),
                 'Token' => $jwtToken
             ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/beneficiary/registerbeneficiary/benenameverify', [
                 'mobile' => $validated['mobile'],
@@ -112,7 +111,6 @@ class Transaction2Controller extends Controller
                 'Content-Type' => 'application/json',
                 'accept' => 'application/json',
                 'Token' => $jwtToken,
-                'Authorisedkey' => base64_decode($this->secretKey)
             ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/transact/transact/send_otp', [
                 'mobile' => $validated['mobile'],
                 'referenceid' => $validated['referenceid'],
@@ -177,7 +175,6 @@ class Transaction2Controller extends Controller
 
             $response = Http::withHeaders([
                 'Token' => $jwtToken,
-                'Authorisedkey' => base64_decode($this->secretKey),
                 'accept' => 'application/json',
                 'content-type' => 'application/json'
             ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/transact/transact', [
@@ -233,7 +230,6 @@ class Transaction2Controller extends Controller
             $jwtToken = $this->generateJwtToken($requestId);
 
             $response = Http::withHeaders([
-                'Authorisedkey' => base64_decode($this->secretKey),
                 'Content-Type' => 'application/json',
                 'Token' => $jwtToken,
                 'accept' => 'application/json'
