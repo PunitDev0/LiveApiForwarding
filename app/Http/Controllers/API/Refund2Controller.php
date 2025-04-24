@@ -9,7 +9,7 @@ use Illuminate\Routing\Controller;
 
 class Refund2Controller extends Controller
 {
-    private $partnerId = 'PS005962'; 
+     private $partnerId = 'PS005962'; 
     private $secretKey = 'UFMwMDU5NjJjYzE5Y2JlYWY1OGRiZjE2ZGI3NThhN2FjNDFiNTI3YTE3NDA2NDkxMzM=';
 
     // Method to generate JWT token
@@ -44,7 +44,7 @@ class Refund2Controller extends Controller
                 'Token' => $jwtToken,
                 'accept' => 'application/json',
                 'content-type' => 'application/json'
-            ])->post('https://sit.paysprint.in/service-api/api/v1/service/dmt-v2/refund/refund/resendotp', [
+            ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/refund/refund/resendotp', [
                 'referenceid' => $validated['referenceid'],
                 'ackno' => $validated['ackno']
             ]);
