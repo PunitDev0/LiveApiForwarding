@@ -38,7 +38,7 @@ class InsurancePremiumPaymentController extends Controller
                 'canumber' => 'required|numeric',
                 'ad1' => 'required|email',
                 'ad2' => 'required|date',
-                'mode' => 'required|in:online'
+                'mode' => 'required|in:online,offline'
             ]);
 
             $requestId = time() . rand(1000, 9999);
