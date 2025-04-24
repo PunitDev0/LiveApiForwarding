@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Firebase\JWT\JWT;
 use Illuminate\Routing\Controller;
 
-class InsuranceController extends Controller
+class InsurancePremiumPaymentController extends Controller
 {
     private $partnerId = 'PS005962'; 
     private $secretKey = 'UFMwMDU5NjJjYzE5Y2JlYWY1OGRiZjE2ZGI3NThhN2FjNDFiNTI3YTE3NDA2NDkxMzM=';
@@ -34,6 +34,7 @@ class InsuranceController extends Controller
     public function fetchLICBill(Request $request)
     {
         try {
+            return $request->ip();
             $validated = $request->validate([
                 'canumber' => 'required|numeric',
                 'ad1' => 'required|email',

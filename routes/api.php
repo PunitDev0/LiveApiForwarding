@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\BusTicketController;
 use App\Http\Controllers\API\DMTBank1Controller;
 use App\Http\Controllers\API\InsuranceController;
+use App\Http\Controllers\API\InsurancePremiumPaymentController;
 use App\Http\Controllers\API\LICController;
 use App\Http\Controllers\API\LPGController;
 use App\Http\Controllers\API\MunicipalityController;
@@ -63,9 +64,9 @@ Route::post('/dmt-bank/status', [DMTBank1Controller::class, 'fetchTransferStatus
 
 // InsuranceController Routes (Assumed)
 
-Route::post('/insurance/premium-details', [InsuranceController::class, 'fetchLICBill'])->name('insurance.premium-details');
-Route::post('/insurance/pay-premium', [InsuranceController::class, 'payInsuranceBill'])->name('insurance.pay-premium');
-Route::post('/insurance/status', [InsuranceController::class, 'fetchInsuranceStatus'])->name('insurance.status');
+Route::post('/insurance/premium-details', [InsurancePremiumPaymentController::class, 'fetchLICBill'])->name('insurance.premium-details');
+Route::post('/insurance/pay-premium', [InsurancePremiumPaymentController::class, 'payInsuranceBill'])->name('insurance.pay-premium');
+Route::post('/insurance/status', [InsurancePremiumPaymentController::class, 'fetchInsuranceStatus'])->name('insurance.status');
 
 // // LICController Routes (Assumed)
 // Route::post('/lic/operators', [LICController::class, 'fetchLICOperators'])->name('lic.operators');
