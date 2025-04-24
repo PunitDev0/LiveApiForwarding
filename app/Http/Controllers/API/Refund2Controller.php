@@ -84,7 +84,7 @@ class Refund2Controller extends Controller
                 'Content-Type' => 'application/json',
                 'Token' => $jwtToken,
                 'accept' => 'application/json'
-            ])->post('https://sit.paysprint.in/service-api/api/v1/service/dmt-v2/refund/refund', [
+            ])->post('https://api.paysprint.in/api/v1/service/dmt-v2/refund/refund', [
                 'ackno' => $validated['ackno'],
                 'referenceid' => $validated['referenceid'],
                 'otp' => $validated['otp']
