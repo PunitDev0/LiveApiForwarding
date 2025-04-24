@@ -36,7 +36,6 @@ class Refund2Controller extends Controller
             $jwtToken = $this->generateJwtToken($requestId);
 
             $response = Http::withHeaders([
-                'Authorisedkey' => base64_decode($this->secretKey),
                 'Token' => $jwtToken,
                 'accept' => 'application/json',
                 'content-type' => 'application/json'
@@ -77,7 +76,6 @@ class Refund2Controller extends Controller
             $jwtToken = $this->generateJwtToken($requestId);
 
             $response = Http::withHeaders([
-                'Authorisedkey' => base64_decode($this->secretKey),
                 'Content-Type' => 'application/json',
                 'Token' => $jwtToken,
                 'accept' => 'application/json'
