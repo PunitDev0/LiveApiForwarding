@@ -41,6 +41,7 @@ Route::post('/remitters/register', [Remitter2Controller::class, 'registerRemitte
 Route::post('/beneficiaries/create', [Beneficiary2Controller::class, 'registerBeneficiary'])->name('beneficiaries.create');
 Route::post('/beneficiaries/delete', [Beneficiary2Controller::class, 'destroyBeneficiary'])->name('beneficiaries.delete');
 Route::post('/beneficiaries/fetch', [Beneficiary2Controller::class, 'fetchBeneficiary'])->name('beneficiaries.fetch');
+Route::post('/beneficiaries/fetch-beneId', [Beneficiary2Controller::class, 'fetchBeneficiaryDataByID'])->name('beneficiaries.fetch');
 
 
 // Transaction2 Routes

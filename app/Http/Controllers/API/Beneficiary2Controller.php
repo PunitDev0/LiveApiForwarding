@@ -163,7 +163,7 @@ class Beneficiary2Controller extends Controller
         }
     }
 
-    public function fetchBeneficiaryData(Request $request)
+    public function fetchBeneficiaryDataByID(Request $request)
     {
         try {
             $validated = $request->validate([
