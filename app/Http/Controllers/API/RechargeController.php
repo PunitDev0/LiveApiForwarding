@@ -4,8 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Models\RechargeTransaction;
-use App\Models\RechargeOperator;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
@@ -169,11 +168,7 @@ class RechargeController extends Controller
 
             $responseData = $response->json();
 
-            // Save to database if the API call is successful
-            if (isset($responseData['status']) && $responseData['status'] === true) {
-                $this->saveOperatorsToDatabase($responseData['data'] ?? []);
-            }
-
+            
             // Log the operator fetch
             Log::info('Operators fetched successfully:', [
                 'jwt_token' => $jwtToken,
