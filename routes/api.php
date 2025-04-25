@@ -14,7 +14,7 @@ use App\Http\Controllers\API\Refund2Controller;
 use App\Http\Controllers\API\Remitter2Controller;
 use App\Http\Controllers\API\Transaction2Controller;
 use App\Http\Controllers\API\UtilitybillPaymentController;
-use App\Http\Controllers\RechargeController;
+use App\Http\Controllers\API\RechargeController;
 
 /*
 |--------------------------------------------------------------------------

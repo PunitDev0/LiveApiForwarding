@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Illuminate\Routing\Controller;
 
 class RechargeController extends Controller
 {
-    private $partnerId = 'PS005962';
+    private $partnerId = 'PS005962'; 
     private $secretKey = 'UFMwMDU5NjJjYzE5Y2JlYWY1OGRiZjE2ZGI3NThhN2FjNDFiNTI3YTE3NDA2NDkxMzM=';
 
     // Method to generate JWT token
@@ -27,7 +27,11 @@ class RechargeController extends Controller
             'reqid' => $requestId
         ];
 
-        return JWT::encode($payload, $this->secretKey, 'HS256');
+        return Jwt::encode(
+            $payload,
+            $this->secretKey,
+            'HS256' // Using HMAC SHA-256 algorithm
+        );
     }
 
     // Process recharge request
