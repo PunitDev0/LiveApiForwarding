@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Beneficiary2Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\BusTicketController;
+use App\Http\Controllers\API\CMSAirtelController;
 use App\Http\Controllers\API\DMTBank1Controller;
 use App\Http\Controllers\API\InsuranceController;
 use App\Http\Controllers\API\InsurancePremiumPaymentController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\API\Refund2Controller;
 use App\Http\Controllers\API\Remitter2Controller;
 use App\Http\Controllers\API\Transaction2Controller;
 use App\Http\Controllers\API\UtilitybillPaymentController;
+use App\Http\Controllers\RechargeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,3 +96,10 @@ Route::post('/utility/operators', [UtilitybillPaymentController::class, 'fetchOp
 Route::post('/utility/bill-details', [UtilitybillPaymentController::class, 'fetchBillDetails'])->name('utility.bill-details');
 Route::post('/utility/pay-bill', [UtilitybillPaymentController::class, 'processBillPayment'])->name('utility.pay-bill');
 Route::post('/utility/status', [UtilitybillPaymentController::class, 'fetchUtilityStatus'])->name('utility.status');
+
+Route::post('/recharge/process', [RechargeController::class, 'processRecharge'])->name('api.recharge.process');
+Route::post('/recharge/status', [RechargeController::class, 'fetchRechargeStatus'])->name('api.recharge.status');
+Route::post('/recharge/operators', [RechargeController::class, 'getOperators'])->name('api.recharge.operators');
+
+Route::post('/cms-airtel/generate-url', [CMSAirtelController::class, 'generateUrl'])->name('api.cmsairtel.generate');
+Route::post('/cms-airtel/transaction-enquiry', [CMSAirtelController::class, 'airtelTransactionEnquiry'])->name('api.cmsairtel.enquiry');
