@@ -33,7 +33,6 @@ class BusTicketController extends Controller
     public function fetchSourceCities(Request $request)
     {
         try {
-            return $request->ip();
             $requestId = time() . rand(1000, 9999);
             $jwtToken = $this->generateJwtToken($requestId);
 
