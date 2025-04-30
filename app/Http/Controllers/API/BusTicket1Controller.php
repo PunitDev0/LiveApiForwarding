@@ -10,9 +10,10 @@ use Illuminate\Routing\Controller;
 
 class BusTicketController extends Controller
 {
-    private $partnerId = 'PS001568';
-    private $secretKey = 'Y2RkZTc2ZmNjODgxODljMjkyN2ViOTlhM2FiZmYyM2I=';
+    private $partnerId = 'PS005962'; 
+    private $secretKey = 'UFMwMDU5NjJjYzE5Y2JlYWY1OGRiZjE2ZGI3NThhN2FjNDFiNTI3YTE3NDA2NDkxMzM=';
 
+    // Method to generate JWT token
     private function generateJwtToken($requestId)
     {
         $timestamp = time();
@@ -22,7 +23,11 @@ class BusTicketController extends Controller
             'reqid' => $requestId
         ];
 
-        return JWT::encode($payload, base64_decode($this->secretKey), 'HS256');
+        return Jwt::encode(
+            $payload,
+            $this->secretKey,
+            'HS256' // Using HMAC SHA-256 algorithm
+        );
     }
 
     public function fetchSourceCities(Request $request)
@@ -33,7 +38,6 @@ class BusTicketController extends Controller
 
             $response = Http::withHeaders([
                 'accept' => 'application/json',
-                'authorisedkey' => base64_decode($this->secretKey),
                 'Token' => $jwtToken
             ])->post('https://sit.paysprint.in/service-api/api/v1/service/bus/ticket/source');
 
@@ -70,7 +74,6 @@ class BusTicketController extends Controller
                 'accept' => 'application/json',
                 'content-type' => 'application/json',
                 'Token' => $jwtToken,
-                'authorisedkey' => base64_decode($this->secretKey)
             ])->post('https://sit.paysprint.in/service-api/api/v1/service/bus/ticket/availabletrips', $request->all());
 
             $jsonResponse = $response->json();
@@ -105,7 +108,6 @@ class BusTicketController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'authorisedkey' => base64_decode($this->secretKey),
                 'Token' => $jwtToken
             ])->post('https://sit.paysprint.in/service-api/api/v1/service/bus/ticket/tripdetails', [
                 'trip_id' => $request->trip_id
@@ -157,7 +159,6 @@ class BusTicketController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'authorisedkey' => base64_decode($this->secretKey),
                 'Token' => $jwtToken
             ])->post('https://sit.paysprint.in/service-api/api/v1/service/bus/ticket/bookticket', [
                 'refid' => $request->refid,
@@ -201,7 +202,6 @@ class BusTicketController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'authorisedkey' => base64_decode($this->secretKey),
                 'Token' => $jwtToken
             ])->post('https://sit.paysprint.in/service-api/api/v1/service/bus/ticket/boardingPoint', [
                 'bpId' => $request->bpId,
@@ -240,7 +240,6 @@ class BusTicketController extends Controller
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
-                'authorisedkey' => base64_decode($this->secretKey),
                 'Token' => $jwtToken
             ])->post('https://sit.paysprint.in/service-api/api/v1/service/bus/ticket/check_booked_ticket', [
                 'refid' => $request->refid,
