@@ -39,7 +39,7 @@ class BusTicketController extends Controller
             $response = Http::withHeaders([
                 'accept' => 'application/json',
                 'Token' => $jwtToken
-            ])->post('https://api.paysprint.in/service-api/api/v1/service/bus/ticket/source');
+            ])->post('https://api.paysprint.in/api/v1/service/bus/ticket/source');
 
             $data = $response->json();
 
@@ -74,7 +74,7 @@ class BusTicketController extends Controller
                 'accept' => 'application/json',
                 'content-type' => 'application/json',
                 'Token' => $jwtToken,
-            ])->post('https://api.paysprint.in/service-api/api/v1/service/bus/ticket/availabletrips', $request->all());
+            ])->post('https://api.paysprint.in/api/v1/service/bus/ticket/availabletrips', $request->all());
 
             $jsonResponse = $response->json();
 
@@ -109,7 +109,7 @@ class BusTicketController extends Controller
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'Token' => $jwtToken
-            ])->post('https://api.paysprint.in/service-api/api/v1/service/bus/ticket/tripdetails', [
+            ])->post('https://api.paysprint.in/api/v1/service/bus/ticket/tripdetails', [
                 'trip_id' => $request->trip_id
             ]);
 
@@ -160,7 +160,7 @@ class BusTicketController extends Controller
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'Token' => $jwtToken
-            ])->post('https://api.paysprint.in/service-api/api/v1/service/bus/ticket/bookticket', [
+            ])->post('https://api.paysprint.in/api/v1/service/bus/ticket/bookticket', [
                 'refid' => $request->refid,
                 'amount' => $request->amount,
                 'base_fare' => $request->base_fare,
@@ -203,7 +203,7 @@ class BusTicketController extends Controller
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'Token' => $jwtToken
-            ])->post('https://api.paysprint.in/service-api/api/v1/service/bus/ticket/boardingPoint', [
+            ])->post('https://api.paysprint.in/api/v1/service/bus/ticket/boardingPoint', [
                 'bpId' => $request->bpId,
                 'trip_id' => $request->trip_id,
             ]);
@@ -241,7 +241,7 @@ class BusTicketController extends Controller
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json',
                 'Token' => $jwtToken
-            ])->post('https://api.paysprint.in/service-api/api/v1/service/bus/ticket/check_booked_ticket', [
+            ])->post('https://api.paysprint.in/api/v1/service/bus/ticket/check_booked_ticket', [
                 'refid' => $request->refid,
             ]);
 
