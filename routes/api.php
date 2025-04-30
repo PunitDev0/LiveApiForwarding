@@ -55,10 +55,12 @@ Route::post('/refunds/otp', [Refund2Controller::class, 'refundOtp'])->name('refu
 Route::post('/refunds/process', [Refund2Controller::class, 'processRefund'])->name('refunds.process');
 
 // BusTicketController Routes (Assumed)
-Route::post('/bus-tickets/operators', [BusTicketController::class, 'fetchBusOperators'])->name('bus-tickets.operators');
-Route::post('/bus-tickets/search', [BusTicketController::class, 'searchBus'])->name('bus-tickets.search');
-Route::post('/bus-tickets/book', [BusTicketController::class, 'bookTicket'])->name('bus-tickets.book');
-Route::post('/bus-tickets/status', [BusTicketController::class, 'fetchTicketStatus'])->name('bus-tickets.status');
+Route::post('/bus-tickets/source_cities', [BusTicketController::class, 'fetchSourceCities'])->name('bus-tickets.operators');
+Route::post('/bus-tickets/available_tickets', [BusTicketController::class, 'fetchAvailableTrips'])->name('bus-tickets.search');
+Route::post('/bus-tickets/trip_details', [BusTicketController::class, 'fetchTripDetails'])->name('bus-tickets.book');
+Route::post('/bus-tickets/book_ticket', [BusTicketController::class, 'bookTicket'])->name('bus-tickets.status');
+Route::post('/bus-tickets/boarding_points', [BusTicketController::class, 'fetchBoardingPointDetails'])->name('bus-tickets.boarding_points');
+Route::post('/bus-tickets/get_book_tickets', [BusTicketController::class, 'fetchBookedTickets'])->name('bus-tickets.get_book_tickets');
 
 // DMTBank1Controller Routes (Assumed)
 Route::post('/dmt-bank/verify', [DMTBank1Controller::class, 'verifyBankDetails'])->name('dmt-bank.verify');
