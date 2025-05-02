@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\BusTicketController;
 use App\Http\Controllers\API\CMSAirtelController;
 use App\Http\Controllers\API\DMTBank1Controller;
+use App\Http\Controllers\API\FastagRechargeController;
 use App\Http\Controllers\API\InsuranceController;
 use App\Http\Controllers\API\InsurancePremiumPaymentController;
 use App\Http\Controllers\API\LICController;
@@ -15,6 +16,15 @@ use App\Http\Controllers\API\Remitter2Controller;
 use App\Http\Controllers\API\Transaction2Controller;
 use App\Http\Controllers\API\UtilitybillPaymentController;
 use App\Http\Controllers\API\RechargeController;
+use App\Http\Controllers\SERVICE_API\Service_Beneficiary21Controller;
+use App\Http\Controllers\SERVICE_API\Service_BusTicket1Controller;
+use App\Http\Controllers\SERVICE_API\Service_InsurancePremiumPaymentController;
+use App\Http\Controllers\SERVICE_API\Service_LPGController;
+use App\Http\Controllers\SERVICE_API\Service_MunicipalityController;
+use App\Http\Controllers\SERVICE_API\Service_Refund2Controller;
+use App\Http\Controllers\SERVICE_API\Service_Remitter2Controller;
+use App\Http\Controllers\SERVICE_API\Service_Transaction2Controller;
+use App\Http\Controllers\SERVICE_API\Service_UtilitybillPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,3 +116,75 @@ Route::post('/recharge/operators', [RechargeController::class, 'getOperators'])-
 
 Route::post('/cms-airtel/generate-url', [CMSAirtelController::class, 'generateUrl'])->name('api.cmsairtel.generate');
 Route::post('/cms-airtel/transaction-enquiry', [CMSAirtelController::class, 'airtelTransactionEnquiry'])->name('api.cmsairtel.enquiry');
+
+
+
+
+
+
+
+
+
+
+// Route::get('/recharge/status-enquiry', [RechargeController::class, 'storeStatusEnquiry']);
+
+Route::prefix('service_api')->group(function () {
+
+    Route::prefix('dmt2')->group(function () {
+        // Api Route for Beneficiary2Controller start
+        Route::post('/beneficiaries/register', [Service_Beneficiary21Controller::class, 'registerBeneficiary']);
+        Route::post('/beneficiaries/fetch', [Service_Beneficiary21Controller::class, 'fetchBeneficiary']);
+        Route::post('/beneficiaries/destroy', [Service_Beneficiary21Controller::class, 'destroyBeneficiary']);
+        Route::post('/beneficiaries/fetchBeneficiaryData', [Service_Beneficiary21Controller::class, 'fetchBeneficiaryData']);
+
+        Route::post('/Remitter2/queryRemitter', [Service_Remitter2Controller::class, 'queryRemitter']);
+        Route::post('/Remitter2/verifyAadhaar', [Service_Remitter2Controller::class, 'verifyAadhaar']);
+        Route::post('/Remitter2/verifyAadhaarWithAPI', [Service_Remitter2Controller::class, 'registerAdhaarRemitter']); //Here this call the verifyAadharWithApi
+        Route::post('/Remitter2/registerRemitter', [Service_Remitter2Controller::class, 'registerRemitter']);
+
+        Route::post('/Transaction2/pennyDrop', [Service_Transaction2Controller::class, 'pennyDrop']);
+        Route::post('/Transaction2/transactionSentOtp', [Service_Transaction2Controller::class, 'transactionSentOtp']);
+        Route::post('/Transaction2/transaction', [Service_Transaction2Controller::class, 'transact']);
+        Route::post('/Transaction2/transactionStatus', [Service_Transaction2Controller::class, 'transactionStatus']);
+
+        Route::post('/Refund2/refundOtp', [Service_Refund2Controller::class, 'refundOtp']);
+        Route::post('/Refund2/processRefund', [Service_Refund2Controller::class, 'processRefund']);
+    });
+
+    Route::prefix('bus')->group(function () {
+        Route::get('/busTicket/sourceCities', [Service_BusTicket1Controller::class, 'fetchSourceCities']);
+        Route::post('/busTicket/fetchAndStoreAvailableTrips', [Service_BusTicket1Controller::class, 'fetchAndStoreAvailableTrips']);
+        Route::post('/busTicket/fetchTripDetails', [Service_BusTicket1Controller::class, 'fetchTripDetails']);
+        Route::post('/busTicket/bookandstorebookticket', [Service_BusTicket1Controller::class, 'bookandstorebookticket']);
+        Route::post('/busTicket/fetchandstoreboardingpointdetails', [Service_BusTicket1Controller::class, 'fetchandstoreboardingpointdetails']);
+    });
+
+
+    Route::prefix('utility')->group(function () {
+
+        Route::post('/billPayment/operatorList', [Service_UtilitybillPaymentController::class, 'operatorList']);
+        Route::post('/billPayment/fetchBillDetails', [Service_UtilitybillPaymentController::class, 'fetchBillDetails']);
+        Route::post('/billPayment/processBillPayment', [Service_UtilitybillPaymentController::class, 'processBillPayment']);
+        Route::post('/billPayment/fetchUtilityStatus', [Service_UtilitybillPaymentController::class, 'fetchUtilityStatus']);
+
+        Route::get('/FastagRecharge/OperatorList', [FastagRechargeController::class, 'fastagRechargeOperatorList']);
+        Route::post('/FastagRecharge/getConsumerDetails', [FastagRechargeController::class, 'getConsumerDetails']);
+
+
+        //Api Route for FastagRechargeController end;
+        Route::post('/LPG/fetchLPGOperator', [Service_LPGController::class, 'fetchLPGOperator']);
+        Route::post('/LPG/FetchLPGDetails', [Service_LPGController::class, 'FetchLPGDetails']);
+        Route::post('/LPG/payLpgBill', [Service_LPGController::class, 'payLpgBill']);
+        Route::post('/LPG/getLPGStatus', [Service_LPGController::class, 'getLPGStatus']);
+
+        //Api Route for InsurancePremiumPaymentController start
+        Route::post('/Municipality/fetchMunicipalityOperator', [Service_MunicipalityController::class, 'fetchMunicipalityOperator']);
+        Route::post('/Municipality/fetchBillDetails', [Service_MunicipalityController::class, 'fetchBillDetails']);
+        Route::post('/Municipality/PayMunicipalityBill', [Service_MunicipalityController::class, 'PayMunicipalityBill']);
+        Route::post('/Municipality/MunicipalityEnquiryStatus', [Service_MunicipalityController::class, 'MunicipalityEnquiryStatus']);
+
+        Route::post('/InsurancePremiumPayment/fetchLICBill', [Service_InsurancePremiumPaymentController::class, 'fetchLICBill']);
+        Route::post('/InsurancePremiumPayment/payInsuranceBill', [Service_InsurancePremiumPaymentController::class, 'payInsuranceBill']);
+        Route::post('/InsurancePremiumPayment/fetchInsuranceStatus', [Service_InsurancePremiumPaymentController::class, 'fetchInsuranceStatus']);
+    });
+});
