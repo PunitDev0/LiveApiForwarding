@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller;
 
 class BusTicketController extends Controller
 {
-    private $partnerId = 'PS005962'; 
+    private $partnerId = 'PS005962';
     private $secretKey = 'UFMwMDU5NjJjYzE5Y2JlYWY1OGRiZjE2ZGI3NThhN2FjNDFiNTI3YTE3NDA2NDkxMzM=';
 
     // Method to generate JWT token
@@ -260,6 +260,126 @@ class BusTicketController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error fetching booked tickets: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function blockTicket(Request $request)
+    {
+        try {
+
+            $requestId = time() . rand(1000, 9999);
+            $jwtToken = $this->generateJwtToken($requestId);
+
+            $validated = $request->validate([
+                'availableTripId' => 'required|numeric',
+                'boardingPointId' => 'required|numeric',
+                'droppingPointId' => 'required|numeric',
+                'source' => 'required|string',
+                'destination' => 'required|string',
+                'bookingType' => 'required|string|in:ONLINE,OFFLINE,STANDARD',
+                'serviceCharge' => 'required|numeric',
+                'paymentMode' => 'required|string|in:CASH,CARD,UPI,NETBANKING',
+                'inventoryItems' => 'required|array',
+                'inventoryItems.0.seatName' => 'required|string',
+                'inventoryItems.0.fare' => 'required|numeric',
+                'inventoryItems.0.serviceTax' => 'required|numeric',
+                'inventoryItems.0.operatorServiceCharge' => 'required|numeric',
+                'inventoryItems.0.ladiesSeat' => 'required|string|in:true,false',
+                'inventoryItems.0.passenger.name' => 'required|string',
+                'inventoryItems.0.passenger.mobile' => 'required|numeric',
+                'inventoryItems.0.passenger.title' => 'required|string|in:Mr,Ms,Mrs',
+                'inventoryItems.0.passenger.email' => 'required|email',
+                'inventoryItems.0.passenger.age' => 'required|numeric',
+                'inventoryItems.0.passenger.gender' => 'required|string|in:MALE,FEMALE',
+                'inventoryItems.0.passenger.address' => 'required|string',
+                'inventoryItems.0.passenger.idType' => 'required|string',
+                'inventoryItems.0.passenger.idNumber' => 'required|string',
+                'inventoryItems.0.passenger.primary' => 'required|string|in:0,1',
+            ]);
+
+            $payload = [
+                'availableTripId' => $validated['availableTripId'],
+                'boardingPointId' => $validated['boardingPointId'],
+                'inventoryItems' => []
+            ];
+    
+            // Transform inventoryItems to match the cURL structure
+            foreach ($validated['inventoryItems'] as $index => $item) {
+                $payload['inventoryItems'][(string)$index] = [
+                    'seatName' => $item['seatName'],
+                    'fare' => $item['fare'],
+                    'serviceTax' => $item['serviceTax'],
+                    'operatorServiceCharge' => $item['operatorServiceCharge'],
+                    'ladiesSeat' => $item['ladiesSeat'] ? 'true' : 'false',
+                    'passenger' => $item['passenger']
+                ];
+            }
+    
+            $response = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Token' => $jwtToken
+            ])->post('https://api.paysprint.in/api/v1/service/bus/ticket/blockticket', $payload);
+    
+            $responseData = $response->json();
+    
+            return response()->json([
+                'status' => 'SUCCESS',
+                'data' => $responseData
+            ], 200);
+
+            $responseData = $response->json();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'status' => 'FAILED',
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            Log::error('Block Ticket API Error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'FAILED',
+                'message' => 'Error processing request: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
+
+    public function cancelTicket(Request $request)
+    {
+        try {
+              $requestId = time() . rand(1000, 9999);
+            $jwtToken = $this->generateJwtToken($requestId);
+
+            $request->validate([
+                'refId' => 'required',
+                'seatNumber' => 'required|string',
+            ]);
+
+            $payload = [
+                'refid' => $request->refId,
+                'seatsToCancel' => [
+                    '0' => $request->seatNumber
+                ]
+            ];
+
+            
+             $response = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+                'Token' => $jwtToken
+            ])->post('https://api.paysprint.in/api/v1/service/bus/ticket/cancel_ticket',$payload);
+
+            return response()->json([
+                'status' => 'SUCCESS',
+                'data' => $response
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
             ], 500);
         }
     }

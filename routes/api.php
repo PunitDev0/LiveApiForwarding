@@ -70,7 +70,9 @@ Route::post('/bus-tickets/available_tickets', [BusTicketController::class, 'fetc
 Route::post('/bus-tickets/trip_details', [BusTicketController::class, 'fetchTripDetails'])->name('bus-tickets.book');
 Route::post('/bus-tickets/book_ticket', [BusTicketController::class, 'bookTicket'])->name('bus-tickets.status');
 Route::post('/bus-tickets/boarding_points', [BusTicketController::class, 'fetchBoardingPointDetails'])->name('bus-tickets.boarding_points');
-Route::post('/bus-tickets/get_book_tickets', [BusTicketController::class, 'fetchBookedTickets'])->name('bus-tickets.get_book_tickets');
+Route::post('/bus-tickets/get_booked_tickets', [BusTicketController::class, 'fetchBookedTickets'])->name('bus-tickets.get_book_tickets');
+Route::post('/bus-tickets/block_tickets', [BusTicketController::class, 'blockTicket'])->name('bus-tickets.get_book_tickets');
+Route::post('/bus-tickets/ticket_cancellation', [BusTicketController::class, 'cancelTicket'])->name('bus-tickets.get_book_tickets');
 
 // DMTBank1Controller Routes (Assumed)
 Route::post('/dmt-bank/verify', [DMTBank1Controller::class, 'verifyBankDetails'])->name('dmt-bank.verify');
