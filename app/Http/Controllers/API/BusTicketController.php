@@ -301,6 +301,12 @@ class BusTicketController extends Controller
             $payload = [
                 'availableTripId' => $validated['availableTripId'],
                 'boardingPointId' => $validated['boardingPointId'],
+                'droppingPointId'=> $validated['droppingPointId'],
+                'source' => $validated['source'],
+                'destination' => $validated['destination'],
+                'bookingType' => $validated['bookingType'],
+                'serviceCharge' => $validated['serviceCharge'],
+                'paymentMode' => $validated['paymentMode'],
                 'inventoryItems' => []
             ];
     
